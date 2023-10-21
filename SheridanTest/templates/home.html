@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <style>
+
+        h1 {
+            font-size: 80px;
+            font-family: Onyx BT;
+            font-weight:normal;
+            text-align:center;
+            color: rgb(100, 100, 100);
+        }
+
+        body {
+            font-size:40px;
+            font-family: Roboto; 
+            color: rgb(50,50,50);
+            text-align:center;
+        }
+
+        p {
+            font-size: 20px;
+            font-family: Roboto;
+            font-weight:normal;
+            text-align:center;
+            color: rgb(100, 100, 100);
+        }
+
+        #banner {
+            height: 360px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+    </style>
+
+
+    <title>The Wonderful 131 Calendar Website</title>
+    <h1>The Wonderful 131 Calendar Website </h1>
+
+    <img id="banner" src="http://127.0.0.1:5000/static/banner.jpg" height="320">
+
+   <body>
+       <br> Welcome to the calendar website!<br>
+    </body>
+
+    <div>        
+        {%for job in jobs%}
+        <br>
+        <div>
+            <div>Name: {{job['name']}}</div>
+            <div>Role: {{job['type']}}</div>
+            <div>Schedule: Schedule is pending.</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <img id="welcome" src="http://127.0.0.1:5000/static/HelloWorld.png" height="320">
+    <!-- Source will need to be changed if we change our website url -SL -->
+
+    <p>Created by Sheridan, Aaron, Rachel, Mia, and Ava.</p>
+    <!--<button>Click here!</button>-->
+
+</html>
