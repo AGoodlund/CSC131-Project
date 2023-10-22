@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phrase Elements</title>  
+  </head>
+  
+  <body>
+    <form action="/phrase" method = "GET">
+      <h1>Table Test</h1> 
+    {% for item in data %}
+    <tr>
+      <td>{{item}}</td>
+    </tr>
+    {% endfor %}
+    </form>
+  </body>
+</html>
