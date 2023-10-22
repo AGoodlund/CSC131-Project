@@ -2,16 +2,30 @@
 <html>
   <head>
     <title>Phrase Elements</title>  
+    <link rel="stylesheet" href="{{url_for('static', filename='phrase.css')}}"/>
   </head>
   
   <body>
+    
     <form action="/phrase" method = "GET">
       <h1>Table Test</h1> 
-    {% for item in data %}
-    <tr>
-      <td>{{item}}</td>
-    </tr>
-    {% endfor %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Phrase</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}  
+            <tr>
+              <td>{{row[0]}}</td>
+              <td>{{row[1]}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </form>
+
   </body>
 </html>
