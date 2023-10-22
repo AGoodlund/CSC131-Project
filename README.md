@@ -22,7 +22,7 @@
 # Install XAMMP. Just keep pressing 'next'. All the default options are good
 # Now open XAMMP and start Apache and MySQL. You might need to give permissions to both or one of them. 
 # If MySQL can't run because Port 3306 is being used by something else, go to Task Manager, then Services, then search for MySQL80 and stop it
-# There's a good chance that you downloaded MySQL separatly already which is using that port
+# There's a good chance that you downloaded MySQL separately already which is using that port
 # Now it should run
 # Now put https:/localhost in your google browser WHILE XAMMP IS RUNNING! Then go tp PhpMyAdmin
 # Create a new database called maindb (spelling must be EXACT)
