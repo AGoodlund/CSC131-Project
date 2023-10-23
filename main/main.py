@@ -5,24 +5,6 @@ app = Flask(__name__)
 
 PORT = 5973
 HOST = "127.0.0.1"
-
-
-#The following are imported from my old code and will not be needed later- Sheridan
-#TODO Decide if you need to delete -SL
-"""user_data = [
-    {"id": 1, "name": "Sheridan Lynch", "type": "student", "schedule_id": 26}, #26 = 1A in hex and I didn't want to keep this as a string -Sl
-
-]
-
-JOBS = [
-    {"id": 1, "name": "Sheridan Lynch", "type": "student", "schedule_id": 26}, #26 = 1A in hex and I didn't want to keep this as a string -Sl
-
-] #Cloned for practice. Please delete jobs and replace with user_data. -SL
-
-schedule_data = [
-    {"schedule_id": "1A", "user_id": "1", "preferred_time": "Monday: 2pm-5pm"}
-] """
-
  
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'
@@ -81,10 +63,6 @@ def display_phrases():
   return render_template('phrase.html', data=data)
 
 
-
-
-
-
 #Gets the JSON version of one phrase
 @app.route("/api/phrases/<string:phrase_id>", methods=["GET"])
 def get_phrases_json_single(phrase_id):
@@ -122,33 +100,54 @@ def display_phrases_single(phrase_id):
     return render_template('phrase.html', data=phrases)
 
 
-#Please remove everything related to 'jobs' in the future -SL
-#TODO Change everything
+# BONUS! Gets JSON if it contains a phrase
+# I figured out how to do it and have a feeling it will be needed later -SL
+# It's not the best but it's almost perfect so I'm keeping it. 
+# We may want to use 'CONTAINS() instead for practical reasons -SL
+@app.route("/api/test/phrases/<string:querry>", methods=["GET"])
+def get_phrases_from_string(querry):
+    phrases = None
 
-"""
-@app.route("/users/test", methods=["GET"])
-def job_test():
-    return render_template('home.html', jobs = JOBS)
+    cursor = mysql.connection.cursor()
 
-@app.route("/api/users", methods=["GET"])
-def user_out():
-    return jsonify(JOBS) """ 
+    find = "SELECT * FROM test WHERE phrase LIKE %s"
+    cursor.execute(find,querry)
+    phrases = cursor.fetchall()
+    cursor.close()
 
-
-
-"""
-
-@app.route("/users/<int:user_id>", methods=["GET"])
-def get_single_user_data(user_id):
-    found_user = None
-    for user in user_data:
-        if user['id'] == user_id:
-            found_user = user
-            break
-    if found_user is None:
-        return {"ERROR": f"No Data Found for ID {user_id}"}, 404
+    if phrases is None:
+        return {"ERROR": f"No Data Found containing the phrase {querry}"}, 404
     
-    return jsonify(found_user)
+    return jsonify(phrases)
+
+
+
+
+
+#POST
+
+"""@app.route("/api/phrases", methods=["POST"])
+def add_phrase_data():
+    if request.is_json:
+        response = request.get_json()
+        #get_id = "LAST_VALUE"
+        insert = "INSERT INTO EMPLOYEE(id, phrase)"
+        ins = "VALUES (%s, %s,)"
+        #next_id = 
+        data = (420,response)
+        cursor = mysql.connection.cursor()
+
+        cursor.execute(insert,ins,data)
+
+        cursor.close()
+        return jsonify(response), 201
+    return {"ERROR. Request must be in JSON :("}, 415"""
+
+#TODO Add the rest of CRUD functionality
+
+
+
+"""
 
 
 #POST
