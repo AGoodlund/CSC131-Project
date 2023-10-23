@@ -109,7 +109,7 @@ def display_phrases_single(phrase_id):
 
 
 
-
+#TODO Add the rest of CRUD functionality
 
 
 
@@ -120,60 +120,56 @@ def add_phrase_data():
     if request.is_json:
         response = request.get_json()
         #get_id = "LAST_VALUE"
-        insert = "INSERT INTO EMPLOYEE(id, phrase)"
-        ins = "VALUES (%s, %s,)"
+        insert = "INSERT INTO EMPLOYEE(id, phrase) VALUES (%s, %s,)"
         #next_id = 
         data = (420,response)
         cursor = mysql.connection.cursor()
 
-        cursor.execute(insert,ins,data)
+        cursor.execute(insert,data)
+        cursor.commit()
 
         cursor.close()
         return jsonify(response), 201
     return {"ERROR. Request must be in JSON :("}, 415"""
-
-#TODO Add the rest of CRUD functionality
-
-
 
 """
 
 
 #POST
 
-@app.route("/users", methods=["POST"])
-def add_user_data():
+@app.route("/phrases", methods=["POST"])
+def add_phrase_data():
     if request.is_json:
         response = request.get_json()
-        response["id"] = _find_next_id(user_data)
+        response["id"] = _find_next_id(phrase_data)
         user_data.append(response)
         return jsonify(response), 201
     return {"ERROR. Request must be in JSON :("}, 415
 
 
 
-@app.route("/users/<int:user_id>", methods=["PUT"])
-def edit_user_data(user_id):
-    for user in user_data:
-        if user["id"] == user_id:
+@app.route("/phrases/<int:phrase_id>", methods=["PUT"])
+def edit_phrase_data(phrase_id):
+    for phrase in phrases:
+        if phrase["id"] == phrsae_id:
             if request.is_json:
                 if 'name' in request.json or 'type' in request.json:
-                    user['name'] = request.json.get('name', user['name']) 
-                    user['type'] = request.json.get('type', user['type'])
-                    return jsonify(user), 200
+                    phrase['name'] = request.json.get('name', phrase['name']) 
+                    phrase['type'] = request.json.get('type', phrase['type'])
+                    return jsonify(phrase), 200
                 else:
-                    return ("ERROR: Bad request. Missing required user fields :("), 400
+                    return ("ERROR: Bad request. Missing required phrase fields :("), 400
             return {"ERROR. Request must be in JSON :("}, 415
-    return {"ERROR" : f"No data found for user ID {user_id}"}, 404
+    return {"ERROR" : f"No data found for phrase ID {phrase_id}"}, 404
 
-@app.route("/users/<int:user_id>", methods=["DELETE"])
-def delete_user_data(user_id):
-    for user in user_data:
-        if user["id"] == user_id:
-         user_data.remove(user)
-         return ("User Successfully Deleted")
+@app.route("/phrases/<int:phrase_id>", methods=["DELETE"])
+def delete_phrase_data(phrase_id):
+    for phrase in phrase_data:
+        if phrase["id"] == phrase_id:
+         phrase_data.remove(phrase))
+         return ("Phrase Successfully Deleted")
 
-    return {"ERROR" : f"No data found for user ID {user_id}. Action was unsuccessful."}, 404
+    return {"ERROR" : f"No data found for phrase ID {phrase_id}. Action was unsuccessful."}, 404
 
 """
 
