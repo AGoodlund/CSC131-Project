@@ -9,7 +9,7 @@ HOST = "127.0.0.1"
 
 #The following are imported from my old code and will not be needed later- Sheridan
 #TODO Decide if you need to delete -SL
-user_data = [
+"""user_data = [
     {"id": 1, "name": "Sheridan Lynch", "type": "student", "schedule_id": 26}, #26 = 1A in hex and I didn't want to keep this as a string -Sl
 
 ]
@@ -21,7 +21,7 @@ JOBS = [
 
 schedule_data = [
     {"schedule_id": "1A", "user_id": "1", "preferred_time": "Monday: 2pm-5pm"}
-]
+] """
 
  
 # MySQL configurations
@@ -61,12 +61,19 @@ def welcome():
 
 # GET
 
-@app.route("/users", methods=["GET"])
-def get_all_user_data():
-    return jsonify(user_data)
+#Gets the JSON version of phrases
+@app.route("/api/phrases", methods=["GET"])
+def get_phrases_json():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM test")
+    phrases = cursor.fetchall()
+    cursor.close()
+    return jsonify(phrases)
 
+
+#Gets the user webpage for phrases
 @app.route("/phrases", methods = ["GET"])
-def display():
+def display_phrases():
   cursor = mysql.connection.cursor()
   cursor.execute("SELECT * FROM test")
   data = cursor.fetchall()
@@ -75,17 +82,61 @@ def display():
 
 
 
+
+
+
+#Gets the JSON version of one phrase
+@app.route("/api/phrases/<string:phrase_id>", methods=["GET"])
+def get_phrases_json_single(phrase_id):
+    phrases = None
+
+    cursor = mysql.connection.cursor()
+
+    find = "SELECT * FROM test WHERE id = %s"
+    cursor.execute(find,phrase_id)
+    phrases = cursor.fetchall()
+    cursor.close()
+
+    if phrases is None:
+        return {"ERROR": f"No Data Found for ID {phrase_id}"}, 404
+    
+    return jsonify(phrases)
+
+
+#Gets the user webpage for one phrase
+
+@app.route("/phrases/<string:phrase_id>", methods=["GET"])
+def display_phrases_single(phrase_id):
+    phrases = None
+
+    cursor = mysql.connection.cursor()
+
+    find = "SELECT * FROM test WHERE id = %s"
+    cursor.execute(find,phrase_id)
+    phrases = cursor.fetchall()
+    cursor.close()
+
+    if phrases is None:
+        return {"ERROR": f"No Data Found for ID {phrase_id}"}, 404
+    
+    return render_template('phrase.html', data=phrases)
+
+
 #Please remove everything related to 'jobs' in the future -SL
 #TODO Change everything
 
+"""
 @app.route("/users/test", methods=["GET"])
 def job_test():
     return render_template('home.html', jobs = JOBS)
 
 @app.route("/api/users", methods=["GET"])
 def user_out():
-    return jsonify(JOBS)
+    return jsonify(JOBS) """ 
 
+
+
+"""
 
 @app.route("/users/<int:user_id>", methods=["GET"])
 def get_single_user_data(user_id):
@@ -135,6 +186,8 @@ def delete_user_data(user_id):
          return ("User Successfully Deleted")
 
     return {"ERROR" : f"No data found for user ID {user_id}. Action was unsuccessful."}, 404
+
+"""
 
 
 
