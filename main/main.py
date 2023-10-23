@@ -15,30 +15,38 @@ app.config['MYSQL_DB'] = 'maindb'
 mysql = MySQL(app)
 
 
-#TODO Decide if needed -SL
-def _find_next_id(data_list):
-    """Small helper function to find the next ID from a previous list of data"""
-    max_id = 0
-    for data in data_list:
-        if data["id"] > max_id:
-            max_id = data["id"]
-
-    # Calculate the next ID
-    next_id = max_id + 1
-    return next_id
-
-
-## TESTS 
-
-@app.get("/test")
-def hello_world():
-    return ("Hello World")
-
-
+# Home and other pages
 @app.get("/")
 def welcome():
     return render_template('home.html')
 
+
+## TESTS 
+
+@app.get("/api/test")
+def hello_world():
+    return ("Hello World")
+
+
+# BONUS! Gets JSON if it contains a phrase
+# I figured out how to do it and have a feeling it will be needed later -SL
+# It's not the best but it's almost perfect so I'm keeping it. 
+# We may want to use 'CONTAINS() instead for practical reasons -SL
+@app.route("/api/test/phrases/<string:querry>", methods=["GET"])
+def get_phrases_from_string(querry):
+    phrases = None
+
+    cursor = mysql.connection.cursor()
+
+    find = "SELECT * FROM test WHERE phrase LIKE %s"
+    cursor.execute(find,querry)
+    phrases = cursor.fetchall()
+    cursor.close()
+
+    if phrases is None:
+        return {"ERROR": f"No Data Found containing the phrase {querry}"}, 404
+    
+    return jsonify(phrases)
 
 
 # GET
@@ -100,25 +108,6 @@ def display_phrases_single(phrase_id):
     return render_template('phrase.html', data=phrases)
 
 
-# BONUS! Gets JSON if it contains a phrase
-# I figured out how to do it and have a feeling it will be needed later -SL
-# It's not the best but it's almost perfect so I'm keeping it. 
-# We may want to use 'CONTAINS() instead for practical reasons -SL
-@app.route("/api/test/phrases/<string:querry>", methods=["GET"])
-def get_phrases_from_string(querry):
-    phrases = None
-
-    cursor = mysql.connection.cursor()
-
-    find = "SELECT * FROM test WHERE phrase LIKE %s"
-    cursor.execute(find,querry)
-    phrases = cursor.fetchall()
-    cursor.close()
-
-    if phrases is None:
-        return {"ERROR": f"No Data Found containing the phrase {querry}"}, 404
-    
-    return jsonify(phrases)
 
 
 
