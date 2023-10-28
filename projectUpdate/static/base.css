@@ -1,0 +1,35 @@
+.title {
+  margin: 5px;
+}
+
+.monthName {
+  margin-left: 50px;
+}
+
+.content {
+  margin: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.month {
+  flex: 20%;
+  padding: 10px;
+  margin: 5px;
+  background-color: #00ffcc;
+  inline-size: 100%;
+}
+
+.day a {
+  color: #330033;
+  text-decoration: none;
+}
+
+nav a {
+  color: #000066;
+  font-size: 2em;
+  margin-left: 50px;
+  text-decoration: none;
+}
