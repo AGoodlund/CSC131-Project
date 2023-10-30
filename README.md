@@ -9,7 +9,7 @@
 
 # How to run projectUpdate:
 
-# Clone or pull Repo. Make sure your python version is 3.9 (not 3.12 or 3.10 or 3.11).
+# Clone or pull Repo.
 # Create venv in projectUpdate:
 # $ py -3 -m venv venv
 # Then activate the virtual machine (for windows):
