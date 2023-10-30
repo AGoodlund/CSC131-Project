@@ -27,6 +27,7 @@ class Month(db.Model):
 class Week(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   month_id = db.Column(db.Integer, db.ForeignKey('month.id'))
+  days = db.relationship('Day', backref='week')
 
   def __repr__(self):
     return f'<Week "{self.month_id}">'
@@ -37,6 +38,7 @@ class Day(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   day = db.Column(db.String(100), nullable=False)
   week_id = db.Column(db.Integer, db.ForeignKey('week.id'))
+  times = db.relationship('Time', backref='day')
 
   def __repr__(self):
     return f'<Day "{self.week_id}">'
@@ -54,19 +56,12 @@ class Time(db.Model):
 
 
 
-
-  
-
-
-
-
-
-"""
 @app.route('/')
 def index():
   months = Month.query.all()
   return render_template('index.html', months=months)
-"""
+
+
 
 
 if __name__ == '__main__':
