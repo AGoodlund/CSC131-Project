@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class ="title">{% block title %} Months {% endblock %}</h1> 
+<div class ="content">
+  {% for month in months %}
+  <h2>{{months.month}}</h2>
+  <div class="month">
+    {% for week in month.weeks %}
+      <b>
+        <div class="week">
+          <p>Week #{{week.id}}</p> 
+          <div class ="content"> 
+            <div>
+               <table>
+                 <tr>
+                   {% for day in week.days %}
+                    <td>
+                       {{day.day}}
+                    </td>
+                   {% endfor %}
+                 </tr>
+               </table> 
+            </div>
+          </div>
+        </div>
+      </b>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
