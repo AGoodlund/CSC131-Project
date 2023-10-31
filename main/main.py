@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, request, url_for, redirect
+import json
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func 
 
@@ -54,12 +55,40 @@ class Time(db.Model):
     
 
 
+# Home and other pages
+@app.get("/")
+def welcome():
+    return render_template('home.html')
 
 
-@app.route('/')
+@app.route("/buttons", methods=["GET"])
+def get_buttons():
+  
+  return render_template('timeSlots.html')
+
+# GET
+
+#Gets the web version of months
+@app.route('/months', methods =["GET"])
 def index():
   months = Month.query.all()
   return render_template('index.html', months=months)
+
+#Gets the JSON version of months
+#Gives the 'not json serialized' error.
+""" @app.route('/api/months', methods =["GET"])
+def get_months_json():
+  months = Month.query.all()
+  return jsonify(months) """
+
+#Gets the JSON version of phrases
+"""@app.route("/api/phrases", methods=["GET"])
+def get_phrases_json():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM test")
+    phrases = cursor.fetchall()
+    cursor.close()
+    return jsonify(phrases)"""
 
 
 
@@ -73,7 +102,7 @@ if __name__ == '__main__':
 
 
 
-"""from flask import Flask, request, render_template, jsonify
+"""
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -90,10 +119,7 @@ app.config['MYSQL_DB'] = 'maindb'
 mysql = MySQL(app)
 
 
-# Home and other pages
-@app.get("/")
-def welcome():
-    return render_template('home.html')
+
 
 
 ## TESTS 
