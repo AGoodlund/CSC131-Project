@@ -76,10 +76,11 @@ def index():
 
 #Gets the JSON version of months
 #Gives the 'not json serialized' error.
-""" @app.route('/api/months', methods =["GET"])
+@app.route('/api/months', methods =["GET"])
 def get_months_json():
   months = Month.query.all()
-  return jsonify(months) """
+  months.toJSON() 
+  return jsonify(months)
 
 #Gets the JSON version of phrases
 """@app.route("/api/phrases", methods=["GET"])
