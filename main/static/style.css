@@ -17,3 +17,9 @@ button {
 
 
 }
+
+button:hover {
+  background-color: #FCEEA7;
+  color: black;
+  transition: 0.3s;
+}
