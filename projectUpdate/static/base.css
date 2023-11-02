@@ -2,9 +2,13 @@
   text-align: center;
   margin: 10px;
   width: 100%;
+  font-size: 50px;
 }
 
-
+.day {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .content {
   width: 100%;
@@ -13,25 +17,51 @@
   flex-wrap: wrap;
 }
 
+.container {
+  padding: 16px;
+  margin: 5px;
+}
+
+
+
 .month {
   text-align: center;
   flex: 20%;
   padding: 5px;
   margin: 5px;
+  width: 100%;
   background-color: #00ffcc;
-  inline-size: 100%;
+}
+
+.monthTitle {
+  font-size: 30px;
+  text-align: center; 
 }
 
 .week {
   color: #330033;
   text-decoration: none;
+  text-align: center;
+  font-size: 20px;
+  padding: 10px;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
 }
+
 
 
 td {
   border: 1px solid white;
   color: #FFFF;
-  padding: 10px;
+  padding: 20px;
+}
+
+.cells {
+  width: 20%; 
+}
+
+td:hover {
+  background-color: #003329;
 }
 
 nav a {

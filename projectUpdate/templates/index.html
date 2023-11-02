@@ -1,31 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
   <h1 class ="title">{% block title %} Months {% endblock %}</h1> 
-<div class ="content">
-  {% for month in months %}
-  <h2>{{months.month}}</h2>
-  <div class="month">
-    {% for week in month.weeks %}
-      <b>
-        <div class="week">
-          <p>Week #{{week.id}}</p> 
-          <div class ="content"> 
-            <div>
-               <table>
-                 <tr>
-                   {% for day in week.days %}
-                    <td>
-                       {{day.day}}
-                    </td>
-                   {% endfor %}
-                 </tr>
-               </table> 
-            </div>
-          </div>
-        </div>
-      </b>
+  <table class ="month">
+    {% for month in months %}
+      <tr>
+        <th class="monthTitle", colspan = "10">{{month.month}}</th>
+      </tr>
+      {% for week in month.weeks %}
+        <tr>
+          <th class ="week", colspan = "10">Week # {{week.id}}</th>
+        </tr>
+        {% for day in week.days %}
+          <tr>  
+              <td class="cells"> <a href="{{ url_for('display_day', day_id=day.id)}}">{{day.day}}</a></td>
+              {% for time in day.times %}
+                <td class="cells">{{time.time}}</td>
+              {% endfor %}
+          </tr>
+        {% endfor %}
+      {% endfor %}
     {% endfor %}
-  </div>
-  {% endfor %}
-</div>
+  </table>
 {% endblock %}

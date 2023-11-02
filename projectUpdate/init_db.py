@@ -9,41 +9,71 @@ with app.app_context():
   
   month1 = Month(month='August')
   
-  week1 = Week(month=month1)
-  week2 = Week(month=month1)
+  week1M1 = Week(month=month1)
+  week2M1 = Week(month=month1)
+  week3M1 = Week(month=month1)
   
-  day1_1 = Day(day='Monday', week_id=1)
-  day2_1 = Day(day='Tuesday', week_id=1)
-  day3_1 = Day(day='Wednesday', week_id=1)
-  day4_1 = Day(day='Thursday', week_id=1)
-  day5_1 = Day(day='Friday', week_id=1)
-  day6_1 = Day(day='Saturday', week_id=1)
-  day7_1 = Day(day='Sunday', week_id=1)  
+  day1W1 = Day(day='Monday')
+  day2W1 = Day(day='Tuesday')
+  day3W1 = Day(day='Wednesday')
+  day4W1 = Day(day='Thursday')
+  day5W1 = Day(day='Friday')
+  day6W1 = Day(day='Saturday')
+  day7W1 = Day(day='Sunday')  
   
-  day1_2 = Day(day='Monday', week_id=2)
-  day2_2 = Day(day='Tuesday', week_id=2)
-  day3_2 = Day(day='Wednesday', week_id=2)
-  day4_2 = Day(day='Thursday', week_id=2)
-  day5_2 = Day(day='Friday', week_id=2)
-  day6_2 = Day(day='Saturday', week_id=2)
-  day7_2 = Day(day='Sunday', week_id=2) 
+  day1W2 = Day(day='Monday')
+  day2W2 = Day(day='Tuesday')
+  day3W2 = Day(day='Wednesday')
+  day4W2 = Day(day='Thursday')
+  day5W2 = Day(day='Friday')
+  day6W2 = Day(day='Saturday')
+  day7W2 = Day(day='Sunday') 
+
+  day1W3 = Day(day='Monday')
+  day2W3 = Day(day='Tuesday')
+
+  week1M1.days.append(day1W1)
+  week1M1.days.append(day2W1)
+  week1M1.days.append(day3W1)
+  week1M1.days.append(day4W1)
+  week1M1.days.append(day5W1)
+  week1M1.days.append(day6W1)
+  week1M1.days.append(day7W1)
+
+  week2M1.days.append(day1W2)
+  week2M1.days.append(day2W2)
+  week2M1.days.append(day3W2)
+  week2M1.days.append(day4W2)
+  week2M1.days.append(day5W2)
+  week2M1.days.append(day6W2)
+  week2M1.days.append(day7W2)
+
+  week3M1.days.append(day1W3)
+  week3M1.days.append(day2W3)
   
-  time1 = Time(time='2:00 PM', day_id=1)
-  time2 = Time(time='3:00 PM', day_id=9)
-  time3 = Time(time = '11:00 AM', day_id=9)
-  time4 = Time(time='9:00 AM', day_id=1)
-  time5 = Time(time='9:00 PM', day_id=2)
   
+  time1 = Time(time='1:00 AM')
+  time2 = Time(time='2:00 AM')
+  time3 = Time(time = '11:00 AM')
+  time4 = Time(time='9:00 AM')
+  time5 = Time(time='9:00 PM')
+
+  day1W1.times.append(time1)
+  day1W1.times.append(time2)
+  day2W1.times.append(time3)
+  day2W2.times.append(time4)
+  day2W2.times.append(time5)
+
   
   db.session.add(month1)
-  db.session.add_all([week1, week2])
-  db.session.add_all([day1_1, day2_1, day3_1, day4_1, day5_1, day6_1, day7_1])
-  db.session.add_all([day1_2, day2_2, day3_2, day4_2, day5_2, day6_2, day7_2])
+  db.session.add_all([week1M1, week2M1, week3M1])
+  db.session.add_all([day1W1, day2W1, day3W1, day4W1, day5W1, day6W1, day7W1])
+  db.session.add_all([day1W2, day2W2, day3W2, day4W2, day5W2, day6W2, day7W2])
+  db.session.add_all([day1W3, day2W3])
   db.session.add_all([time1, time2, time3, time4, time5])
   
   db.session.commit()
   
-  print(Time.query.all())
   
   
   
