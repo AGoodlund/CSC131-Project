@@ -3,12 +3,10 @@ from app import db, Month, Week, Day, Time
 from app import app
 
 
-with app.app_context():
-  db.drop_all()
-  db.create_all()
-  
-  month1 = Month(month='August')
 
+with app.app_context():
+  
+  month1 = Month(month='February')
 
   
   week1M1 = Week(month=month1)
@@ -91,33 +89,15 @@ with app.app_context():
   week4M1.days.append(day7W4)
 
 
-  
-  time1 = Time(time='1:00 AM')
-  time2 = Time(time='2:00 AM')
-  time3 = Time(time = '11:00 AM')
-  time4 = Time(time='9:00 AM')
-  time5 = Time(time='9:00 PM')
 
-
-  
-  day1W1.times.append(time1)
-  day1W1.times.append(time2)
-  day2W1.times.append(time3)
-  day2W2.times.append(time4)
-  day2W2.times.append(time5)
-
-
-  
-  db.session.add(month1)
-  db.session.add_all([week1M1, week2M1, week3M1])
+  db.session.add_all([month1])
+  db.session.add_all([week1M1, week2M1, week3M1, week4M1])
   db.session.add_all([day1W1, day2W1, day3W1, day4W1, day5W1, day6W1, day7W1])
   db.session.add_all([day1W2, day2W2, day3W2, day4W2, day5W2, day6W2, day7W2])
   db.session.add_all([day1W3, day2W3, day3W3, day4W3, day5W3, day6W3, day7W3])
   db.session.add_all([day1W4, day2W4, day3W4, day4W4, day5W4, day6W4, day7W4])
-  db.session.add_all([time1, time2, time3, time4, time5])
+  
   
   db.session.commit()
-  
-  
   
   
