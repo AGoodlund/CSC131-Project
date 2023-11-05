@@ -22,7 +22,12 @@
   margin: 5px;
 }
 
-
+.monthContainer {
+  position: relative;
+  margin: auto; 
+  width: 80%;
+  
+}
 
 .month {
   text-align: center;
