@@ -88,7 +88,7 @@ def delete_time(time_id):
   return redirect(url_for('display_day', day_id=day_id))
 
 
-
+# Update a Time in a specific Day
 @app.post('/times/<int:time_id>/edit')
 def edit_time(time_id): 
   update_time = Time.query.get_or_404(time_id)

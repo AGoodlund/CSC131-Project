@@ -28,14 +28,16 @@
   text-align: center;
   flex: 20%;
   padding: 5px;
-  margin: 5px;
+  margin: 20px;
   width: 100%;
   background-color: #00ffcc;
+  border: 5px solid black;
 }
 
 .monthTitle {
   font-size: 30px;
   text-align: center; 
+  padding: 10px;
 }
 
 .week {
@@ -46,6 +48,21 @@
   padding: 10px;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
+}
+
+a:link {
+  text-decoration: none;
+  color: black; 
+}
+
+a:visited {
+  color: gray;
+}
+
+input {
+  margin: 2px;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
 }
 
 
@@ -69,4 +86,8 @@ nav a {
   font-size: 2em;
   margin-left: 50px;
   text-decoration: none;
+}
+
+nav a:visited {
+  color: #000066;
 }
