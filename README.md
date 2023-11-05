@@ -1,4 +1,5 @@
 # CSC131-Project
+# By Sheridan, Aaron, Mia, Ava, and Rachel
 
 # This is where we will commit our files to!
 # Yay!
@@ -14,7 +15,7 @@
 # Create venv in projectUpdate:
 # $ py -3 -m venv venv
 # Then activate the virtual machine (for windows):
-# $ . venv/scripts/activate
+# $venv\scripts\activate
 # Download the required libraries:
 # $ pip install -r requirements.txt
 

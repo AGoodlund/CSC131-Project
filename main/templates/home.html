@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+    <link href="{{ url_for('static', filename='./style.css') }}" rel="stylesheet" type="text/css"/>
     <style>
 
         h1 {
@@ -42,19 +43,6 @@
    <body>
        <br> Welcome to the calendar website!<br>
     </body>
-
-
-    <!-- This is leftover from my original test. -->
-    <!--<div>        
-        {%for job in jobs%}
-        <br>
-        <div>
-            <div>Name: {{job['name']}}</div>
-            <div>Role: {{job['type']}}</div>
-            <div>Schedule: Schedule is pending.</div>
-        </div>
-        {% endfor %}
-    </div> --> 
 
     <img id="welcome" src="./static/HelloWorld.png" height="320">
 

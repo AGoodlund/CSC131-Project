@@ -79,6 +79,9 @@ def index():
 @app.route('/day/<int:day_id>/', methods=('GET', 'POST'))
 def display_day(day_id):
   day = Day.query.get_or_404(day_id)
+
+
+  
   # Add Times to specific Day
   if request.method == 'POST':
     time = Time(time=request.form['time'], day=day)

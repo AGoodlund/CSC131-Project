@@ -3,6 +3,7 @@ from app import db, Month, Week, Day, Time
 from app import app
 
 
+#I could definitely help find a way to condense this in the future. -SL
 
 with app.app_context():
   db.drop_all()

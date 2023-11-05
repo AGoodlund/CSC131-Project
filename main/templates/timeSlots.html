@@ -1,7 +1,11 @@
 <!DOCTYPE html>
+
 <html>
+  
+
 
 <head>
+  <link href="{{ url_for('static', filename='./style.css') }}" rel="stylesheet" type="text/css"/>
   <meta charset="UTF-8" />
 </head>
 
@@ -40,6 +44,7 @@
 
 
   <script>
+    
     const btn = document.getElementById('btn');
     btn.addEventListener('click', function onClick() {
       if (btn.style.background == 'green') {
