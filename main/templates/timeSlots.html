@@ -1,8 +1,21 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html>
   
 
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}  {% endblock %} - SchedulingApp</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='base.css')}}"/> 
+
+</head>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="{{ url_for('index') }}">Calendar</a>
+  <a href="/times">Time Slots</a>
+  
+</nav>
 
 <head>
   <link href="{{ url_for('static', filename='./style.css') }}" rel="stylesheet" type="text/css"/>

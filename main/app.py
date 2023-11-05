@@ -60,7 +60,7 @@ def welcome():
     return render_template('home.html')
 
 
-@app.route("/buttons", methods=["GET"])
+@app.route("/times", methods=["GET"])
 def get_buttons():
   
   return render_template('timeSlots.html')

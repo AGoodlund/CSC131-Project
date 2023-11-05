@@ -55,14 +55,18 @@
   border-bottom: 2px solid black;
 }
 
+/*The colors between previously visited and non-visited pages can be swapped. I am indecisive -Sl*/
+
 a:link {
   text-decoration: none;
-  color: #4bad99bb; 
+  color: black;
+  /*color: #4bad99bb;*/ 
 }
 
 a:visited {
   font-weight: bolder;
   color: black;
+  /*color: #4bad99bb;*/ 
 }
 
 input {
@@ -84,7 +88,12 @@ td {
 }
 
 td:hover {
-  background-color: #FCEEA7;
+  /*background-color: #FCEEA7;*/
+
+    background-color: #4bad99bb; 
+
+    /*I lied, I got rid of cohesion because I like this color on the seafoam green -SL*/
+
 }
 
 nav a {
