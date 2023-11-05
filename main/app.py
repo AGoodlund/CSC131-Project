@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template, request, url_for, redirect
+import json
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func 
 
@@ -53,10 +54,22 @@ class Time(db.Model):
     return f'<Time "{self.day_id}">'
     
 
+# Home and other pages
+@app.get("/")
+def welcome():
+    return render_template('home.html')
 
 
-# Main page
-@app.route('/')
+@app.route("/buttons", methods=["GET"])
+def get_buttons():
+  
+  return render_template('timeSlots.html')
+
+
+# GET
+
+#Gets the web version of months
+@app.route('/months')
 def index():
   months = Month.query.all()
   return render_template('index.html', months=months)
