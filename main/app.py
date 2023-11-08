@@ -1,6 +1,5 @@
 import os
-import json
-from flask import Flask, render_template, request, url_for, redirect, jsonify
+from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func 
 
@@ -11,6 +10,22 @@ app.config['SQLALCHEMY_DATABASE_URI'] =\
     'sqlite:///' + os.path.join(basedir, 'database.db') 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+
+
+user_time = db.Table('user_time',
+                    db.Column('time_id', db.Integer, db.ForeignKey('time.id')),
+                     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+                    )
+
+
+class User(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(100), unique=True)
+  schedule = db.relationship('Time', secondary=user_time, backref='times')
+
+  def __repr__(self):
+    return f'<User "{self.name}">'
 
 
 
@@ -49,27 +64,16 @@ class Time(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   time = db.Column(db.String(100))
   day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
-
+ 
+  
   def __repr__(self):
     return f'<Time "{self.day_id}">'
     
 
-# Home and other pages
-@app.get("/")
-def welcome():
-    return render_template('home.html')
 
 
-@app.route("/times", methods=["GET"])
-def get_buttons():
-  
-  return render_template('timeSlots.html')
-
-
-# GET
-
-#Gets the web version of months
-@app.route('/months')
+# Main page
+@app.route('/')
 def index():
   months = Month.query.all()
   return render_template('index.html', months=months)
@@ -79,9 +83,6 @@ def index():
 @app.route('/day/<int:day_id>/', methods=('GET', 'POST'))
 def display_day(day_id):
   day = Day.query.get_or_404(day_id)
-
-
-  
   # Add Times to specific Day
   if request.method == 'POST':
     time = Time(time=request.form['time'], day=day)
