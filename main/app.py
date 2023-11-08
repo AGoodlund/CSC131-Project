@@ -69,11 +69,19 @@ class Time(db.Model):
   def __repr__(self):
     return f'<Time "{self.day_id}">'
     
+# Home and other pages
+@app.get("/")
+def welcome():
+    return render_template('home.html')
 
 
+@app.route("/times", methods=["GET"])
+def get_buttons():
+  return render_template('timeSlots.html')
 
-# Main page
-@app.route('/')
+
+# Months page
+@app.route('/months')
 def index():
   months = Month.query.all()
   return render_template('index.html', months=months)
