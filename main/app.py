@@ -1,5 +1,6 @@
 import os
 import json
+import event #This is Aaron's file
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func 
@@ -66,6 +67,20 @@ def get_buttons():
   return render_template('timeSlots.html')
 
 
+
+#EVENT FUNCTION
+
+@app.route('/api')
+def eventView():
+  api = event
+  return api.viewEvents()
+
+@app.route('/api/test')
+def eventTest():
+  api = event
+  api.test()
+  out = "Test Complete: SEE CONSOLE"
+  return out
 # GET
 
 #Gets the web version of months
