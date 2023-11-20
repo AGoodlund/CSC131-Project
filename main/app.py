@@ -1,6 +1,6 @@
 import os
 import json
-import event #This is Aaron's file
+import Event_class #This is Aaron's file
 from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash 
@@ -76,6 +76,20 @@ class Time(db.Model):
   
   def __repr__(self):
     return f'<Time "{self.day_id}">'
+
+
+
+#API
+
+@app.route('/api')
+def eventView():
+  return Event_class.viewEvents()
+
+@app.route('/api/test')
+def eventTest():
+  Event_class.test()
+  out = "Test Complete: SEE CONSOLE"
+  return out
     
 # Home and other pages
 @app.get("/")
@@ -87,6 +101,10 @@ def welcome():
 def get_buttons():
   return render_template('timeSlots.html')
 
+@app.route("/calendar", methods=["GET"])
+def get_calendar():
+  return render_template('calendar.html')
+
 @login_manager.user_loader
 def load_user(user_id):
   return User.query.get(int(user_id))
@@ -94,20 +112,6 @@ def load_user(user_id):
 
 #EVENT FUNCTION
 
-@app.route('/api')
-def eventView():
-  api = event
-  return api.viewEvents()
-
-@app.route('/api/test')
-def eventTest():
-  api = event
-  api.test()
-  out = "Test Complete: SEE CONSOLE"
-  return out
-
-
-# GET
 @app.route('/profile')
 @login_required
 def profile():
@@ -180,8 +184,6 @@ def display_day(day_id):
     return redirect(url_for('display_day', day_id=day.id))
     
   return render_template('day.html', day=day)
-
-
 
 
 # Delete a Time in specific Day
