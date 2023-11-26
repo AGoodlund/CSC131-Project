@@ -96,11 +96,16 @@ def eventTest():
 @app.route('/api/day/<int:day_id>/', methods=('GET', 'POST'))
 def arrayDay (day_id):
   day = Day.query.get_or_404(day_id)
+  print("Get works.")
   # Add Times to specific Day
   if request.method == 'POST':
-    time = Time(time=request.form['time'], day=day) #Needs to be updated to handle an array -SL
-    db.session.add(time)
-    db.session.commit()
+    print("Post works.")
+    #time = Time(time=request.form['time'], day=day) #Needs to be updated to handle an array -SL
+    # THE ABOVE NEEDS TO BE DONE SEVERAL TIMES
+
+    timeArray = request.form['postOutput']
+    #db.session.add(time)
+    #db.session.commit()
     return redirect(url_for('display_day', day_id=day.id))
     
   return render_template('calendar.html', day=day)
@@ -217,7 +222,7 @@ def delete_time(time_id):
 
 
 # Update a Time in a specific Day
-@app.post('/times/<int:time_id>/edit')
+@app.put('/times/<int:time_id>/edit')
 def edit_time(time_id): 
   update_time = Time.query.get_or_404(time_id)
   day_id = update_time.day.id 
