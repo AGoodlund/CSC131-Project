@@ -1,19 +1,25 @@
-
 <!DOCTYPE html>
 <html>
   
+<style>
+  h1 {text-align: center;}
+  p {text-align: center;}
+  div {text-align: center;}
+  body {text-align: center;}
+  div {text-align: center;}
+  </style>
+
 
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}  {% endblock %} - SchedulingApp</title>
+  <title>Calendar</title>
   <link rel="stylesheet" href="{{url_for('static', filename='base.css')}}"/> 
 
 </head>
 
 <nav>
   <a href="/">Home</a>
-  <a href="/calendar">Calendar</a>
-  <a href="{{ url_for('index') }}">Months</a>
+  <a href="{{ url_for('index') }}">Calendar</a>
   
 </nav>
 <hr>
@@ -22,16 +28,45 @@
   <link href="{{ url_for('static', filename='./style.css') }}" rel="stylesheet" type="text/css"/>
   <meta charset="UTF-8" />
 </head>
+  
+  {% block content %} 
+  <span class="title"<h1>{% block title %} Week {{day.week_id}} {% endblock %}</h1></span>
+  <div class="content">
+    <div class="month">
+      <div class="content">
+          <table class="day">
+            <tr>
+              <th class="title">{{day.day}}</th>
+            </tr>
+            {% for time in day.times %}
+              <tr>
+                <td>
+                  {{time.time}}
+                  <div>
+                    <form method="POST" action="{{ url_for('delete_time', time_id=time.id) }}">
+                      <input type="submit" value="Delete Time" onclick="return confirm('Are you sure you want to delete this time?')"> 
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
 
 <body>
-  <title> Time Slot</title>
   <h1> Welcome to the Calender!</h1>
   <p> Please select a time slot that you are available on </p>
 
 
   <!--These are split into 6 hour sections for now -SL-->
+  <!--TODO: Consider changing value to military time and ID to 'ti'-->
 
-  <button id="00:00">12:00 AM</button>
+  <button value = "00:00" id="00:00">12:00 AM</button>
   <button id="01:00">1:00 AM</button>
   <button id="02:00">2:00 AM</button>
   <button id="03:00">3:00 AM</button>
@@ -59,25 +94,87 @@
   <button id="22:00">10:00 PM</button>
   <button id="23:00">11:00 PM</button>
   <br> <br>
-  <button id="btnSubmit">Submit</button>
+  <button id="btnSubmit" onclick="postTimes()">Submit</button>
   <button id="btnInvert">Invert Selection</button>
+  <br><br>
 
+<form id="timeSubmission" method = post>
+<!-- Appaerntly this is a good way of formatting things: <form id="timeSubmission" action="/times/<int:time_id>/edit" method="post"> -->
+<div id="submissionForm"></div>
+</form>
 
-
-
-  <script>
-
-let userSubmission = [];
-
+<script>
+    
 let btns = document.querySelectorAll('button:not(#btnSubmit):not(#btnInvert)');
+const btnSubmit = document.getElementById('btnSubmit');
+const btnInvert = document.getElementById('btnInvert');
 
+function submitFunction()
+{
+    var form = document.getElementById("timeSubmission");
+    var timeArray = [];
+
+    updateForm();
+
+    for (var currentTime = 0; currentTime < form.elements.length; currentTime++) 
+    {
+      var element = form.elements[currentTime];
+  
+      if (element.type !== "button") {
+        var data = {
+          name: element.name,
+          value: element.value
+        };
+        timeArray.push(data);
+      }
+    }
+  
+    return timeArray;
+}
+
+function updateForm ()
+{
+    var container = document.getElementById("submissionForm");
+    var newTime = document.createElement("input");
+    
+    btns.forEach(function (submitSelected)
+    {
+        newTime = document.createElement("input");
+        newTime.name = (submitSelected.id); //This can be changed to be whatever is needed -SL
+        newTime.className = "timeArr";
+        newTime.type = "hidden";
+      
+        if (document.getElementById(submitSelected.id).style.background == 'green') 
+        {
+            //alert("Time is true");
+            newTime.value = "1";
+        }
+
+        else 
+        {
+            //alert("Time is false");
+            newTime.value= "0";
+        }
+
+        container.appendChild(newTime);
+    });
+}
+
+function postTimes() {
+    var postOutput= submitFunction(); 
+    console.log(postOutput);
+
+    document.getElementById("timeSubmission").submit(); //Hoping this matches the Submit function -SL
+    alert("Submission Successful!");
+    //redirect?
+  }
 
 //All of the button code has been refactored into this -SL
 
-btns.forEach(function (buttonClick) 
+    btns.forEach(function (buttonClick) 
 {
     buttonClick.style.background = 'green';
-    //Feel free to change this, I just prefer that buttons start out on green rather than white -SL
+    //BEWARE: Changing this to white/grey on default will mess with the logic. -SL
 
     buttonClick.addEventListener('click', function () 
     {
@@ -95,35 +192,7 @@ btns.forEach(function (buttonClick)
 });
 
 
-
-const btnSubmit = document.getElementById('btnSubmit');
-
-btnSubmit.addEventListener('click', function onClick() 
-{
-    btns.forEach(function (submitSelected)
-    {
-        if (document.getElementById(submitSelected.id).style.background == 'green') 
-        {
-            userSubmission[submitSelected.id] = 1;
-        }
-
-        else 
-        {
-            userSubmission[submitSelected.id] = 0;
-        }
-    });
-
-    //Send the array to the database
-
-    window.alert("Selection Submitted.");
-
-    //redirect..?
-}); 
-
-
-const btnInvert = document.getElementById('btnInvert');
-
-btnInvert.addEventListener('click', function onClick() 
+    btnInvert.addEventListener('click', function onClick() 
 {
     
 
@@ -142,12 +211,6 @@ btnInvert.addEventListener('click', function onClick()
 
     window.alert("Selection Inverted.");
 });
-
-
 </script>
-
-
-
 </body>
-
 </html>

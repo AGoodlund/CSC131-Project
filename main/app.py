@@ -91,6 +91,26 @@ def eventTest():
   out = "Test Complete: SEE CONSOLE"
   return out
     
+
+
+@app.route('/api/day/<int:day_id>/', methods=('GET', 'POST'))
+def arrayDay (day_id):
+  day = Day.query.get_or_404(day_id)
+  # Add Times to specific Day
+  if request.method == 'POST':
+    time = Time(time=request.form['time'], day=day) #Needs to be updated to handle an array -SL
+    db.session.add(time)
+    db.session.commit()
+    return redirect(url_for('display_day', day_id=day.id))
+    
+  return render_template('calendar.html', day=day)
+
+#This is where I'm experimenting with uploading the time array -Sl
+
+
+
+
+
 # Home and other pages
 @app.get("/")
 def welcome():
@@ -178,12 +198,12 @@ def display_day(day_id):
   day = Day.query.get_or_404(day_id)
   # Add Times to specific Day
   if request.method == 'POST':
-    time = Time(time=request.form['time'], day=day)
+    time = Time(time=request.form['time'], day=day) #Needs to be updated to handle an array -SL
     db.session.add(time)
     db.session.commit()
     return redirect(url_for('display_day', day_id=day.id))
     
-  return render_template('day.html', day=day)
+  return render_template('calendar.html', day=day)
 
 
 # Delete a Time in specific Day
