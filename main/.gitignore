@@ -3,3 +3,6 @@ venv/
 .venv/
 venv\
 .venv\
+
+# Don't commit my own copy of main
+My Main/ 
