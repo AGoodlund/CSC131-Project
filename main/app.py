@@ -96,15 +96,15 @@ def eventTest():
 @app.route('/api/day/<int:day_id>/', methods=('GET', 'POST'))
 def arrayDay (day_id):
   day = Day.query.get_or_404(day_id)
-  print("Get works.")
   # Add Times to specific Day
   if request.method == 'POST':
-    print("Post works.")
     #time = Time(time=request.form['time'], day=day) #Needs to be updated to handle an array -SL
     # THE ABOVE NEEDS TO BE DONE SEVERAL TIMES
 
-    timeArray = request.form['postOutput']
-    #db.session.add(time)
+    timeArray = request.form.get('timeSubmission')
+    #db.session.add(timeArray.
+    time = Time(time="timeArray", day=day) #replce time array with dummy time for testing -Sl
+    db.session.commit()
     #db.session.commit()
     return redirect(url_for('display_day', day_id=day.id))
     
