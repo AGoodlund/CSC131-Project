@@ -11,7 +11,7 @@ There were some problems with numpy so I'm going with the hack method until we c
 class Events:
     openTimes = []
     event_list = []
-        #The list of Events for later use
+        #The list of Events for later use TODO: remove anything about the event list because this is a class that gets passed things and that's it. it has no memory
     standard_size = (24 * 4)    #24 hour day with hours broken into four 15 minute pieces
 
     def findOpenID():
@@ -101,6 +101,7 @@ class Events:
                     start += 1
                 return list
         return "Event ID not found"
+    #Priority is being nixed
 
 
 
