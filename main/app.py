@@ -1,7 +1,10 @@
 import os
-from flask import Flask, render_template, request, url_for, redirect
+import json
+import Event_class #This is Aaron's file
+from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import func 
+from werkzeug.security import generate_password_hash, check_password_hash 
+from flask_login import UserMixin, LoginManager, login_user, current_user, login_required, logout_user 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -9,9 +12,12 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] =\
     'sqlite:///' + os.path.join(basedir, 'database.db') 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'mysupersecretkey'
 db = SQLAlchemy(app)
 
-
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+login_manager.init_app(app)
 
 user_time = db.Table('user_time',
                     db.Column('time_id', db.Integer, db.ForeignKey('time.id')),
@@ -19,9 +25,11 @@ user_time = db.Table('user_time',
                     )
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String(100), unique=True)
+  email = db.Column(db.String(100), unique=True)
+  password = db.Column(db.String(100))
+  name = db.Column(db.String(100))
   schedule = db.relationship('Time', secondary=user_time, backref='times')
 
   def __repr__(self):
@@ -68,7 +76,46 @@ class Time(db.Model):
   
   def __repr__(self):
     return f'<Time "{self.day_id}">'
+
+
+
+#API
+
+@app.route('/api')
+def eventView():
+  return Event_class.viewEvents()
+
+@app.route('/api/test')
+def eventTest():
+  Event_class.test()
+  out = "Test Complete: SEE CONSOLE"
+  return out
     
+
+
+@app.route('/api/day/<int:day_id>/', methods=('GET', 'POST'))
+def arrayDay (day_id):
+  day = Day.query.get_or_404(day_id)
+  # Add Times to specific Day
+  if request.method == 'POST':
+    #time = Time(time=request.form['time'], day=day) #Needs to be updated to handle an array -SL
+    # THE ABOVE NEEDS TO BE DONE SEVERAL TIMES
+
+    timeArray = request.form.get('timeSubmission')
+    #db.session.add(timeArray.
+    time = Time(time="timeArray", day=day) #replce time array with dummy time for testing -Sl
+    db.session.commit()
+    #db.session.commit()
+    return redirect(url_for('display_day', day_id=day.id))
+    
+  return render_template('calendar.html', day=day)
+
+#This is where I'm experimenting with uploading the time array -Sl
+
+
+
+
+
 # Home and other pages
 @app.get("/")
 def welcome():
@@ -78,6 +125,69 @@ def welcome():
 @app.route("/times", methods=["GET"])
 def get_buttons():
   return render_template('timeSlots.html')
+
+@app.route("/calendar", methods=["GET"])
+def get_calendar():
+  return render_template('calendar.html')
+
+@login_manager.user_loader
+def load_user(user_id):
+  return User.query.get(int(user_id))
+
+
+#EVENT FUNCTION
+
+@app.route('/profile')
+@login_required
+def profile():
+  return render_template('profile.html', name=current_user.name) 
+
+@app.route('/login', methods=('GET', 'POST'))
+def login():
+  if request.method == 'POST':
+    email = request.form.get('email')
+    password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user or not check_password_hash(user.password, password):
+      flash('Please check your login details and try again.')
+      return redirect(url_for('login'))
+
+    login_user(user, remember=remember)
+    return redirect(url_for('profile'))
+    
+  return render_template('login.html')
+
+
+@app.route('/signup', methods=('GET', 'POST'))
+def signup():
+  if request.method == 'POST':
+    email = request.form.get('email')
+    name = request.form.get('name')
+    password = request.form.get('password')
+
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+      flash('Email address already exists!')
+      return redirect(url_for('signup'))
+
+    new_user = User(email=email, password=generate_password_hash(password, method='scrypt'), name=name)
+
+    db.session.add(new_user)
+    db.session.commit()
+    return redirect(url_for('login'))
+    
+  return render_template('signup.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+  logout_user()
+  return redirect(url_for('welcome'))
 
 
 # Months page
@@ -93,14 +203,12 @@ def display_day(day_id):
   day = Day.query.get_or_404(day_id)
   # Add Times to specific Day
   if request.method == 'POST':
-    time = Time(time=request.form['time'], day=day)
+    time = Time(time=request.form['time'], day=day) #Needs to be updated to handle an array -SL
     db.session.add(time)
     db.session.commit()
     return redirect(url_for('display_day', day_id=day.id))
     
-  return render_template('day.html', day=day)
-
-
+  return render_template('calendar.html', day=day)
 
 
 # Delete a Time in specific Day
@@ -114,7 +222,7 @@ def delete_time(time_id):
 
 
 # Update a Time in a specific Day
-@app.post('/times/<int:time_id>/edit')
+@app.put('/times/<int:time_id>/edit')
 def edit_time(time_id): 
   update_time = Time.query.get_or_404(time_id)
   day_id = update_time.day.id 

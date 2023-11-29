@@ -275,7 +275,8 @@ def test():
 #addEventToList(UserName = "",userID = 0, startHour = 0, startMin = 0, endHour = 0, endMin = 0, priority = False, isFreeTime = True)
 #addEventToSchedule(ID, list) with ID being whatever ID you want to give the event and list being the array for the schedule
 
-test()
+#test()
+#Turning the test event off by default for now for smoother loading. It can be accessed under 127.0.0.1:5000/api/test -SL
 
 #Try making a class that just reads from a dictionary that has start/end times, priority, and a test "user ID" which is all set to 0
 #for now mash everytest into a single schedule array and then later make it so that it makes one for each user with Events
