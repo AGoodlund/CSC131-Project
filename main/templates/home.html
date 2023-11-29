@@ -1,6 +1,7 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
     <link href="{{ url_for('static', filename='./style.css') }}" rel="stylesheet" type="text/css"/>
     <style>
 
@@ -33,26 +34,68 @@
             object-fit: cover;
         }
 
+        nav a {
+          color: #000066;
+          font-size: 1em;
+          margin-left: 50px;
+          text-decoration: none;
+        }
+
+       nav a:visited {
+          color: #000066;
+        }
+
+        a:link {
+          text-decoration: none;
+          color: black; 
+        }
+
+        a:visited {
+          color: gray;
+        }
+      
     </style>
-
     <title>The Wonderful 131 Calendar Website</title>
-    <h1>The Wonderful 131 Calendar Website </h1>
+  </head>
 
-    <img id="banner" src="./static/bannerTwo.jpg" height="320">
-
-   <body>
-       <br> Welcome to the calendar website!<br>
-    </body>
-
-    <img id="welcome" src="./static/HelloWorld.png" height="320">
-
-
-    <br>
-    <br>
-    <a href="./signup"><button>Sign Up!</button></a>
-    <a href="./login"><button>Log In!</button></a>
-    <br>
+  <body>
     
-    <p>Created by Sheridan Lynch, Aaron Goodlund, Rachel Azwell, Mia Brady, and Ava Brady.</p>
+    <nav>
+        <a href="/">Home</a>
+        <a href="{{ url_for('index') }}">Calendar</a>
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('profile') }}">Profile</a>
+        {% endif %} 
+        {% if not current_user.is_authenticated %}
+          <a href="{{ url_for('login') }}">Login</a>
+          <a href="{{ url_for('signup') }}">Sign Up</a>
+        {% endif %}
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
 
+    </nav>
+    <hr>
+    <div>
+      <h1>The Wonderful 131 Calendar Website </h1>
+  
+      <img id="banner" src="./static/bannerTwo.jpg" height="320">
+  
+  
+         <br> Welcome to the calendar website!<br>
+      </body>
+  
+      <img id="welcome" src="./static/HelloWorld.png" height="320">
+  
+  
+      <br>
+      <br>
+      <a href="./signup"><button>Sign Up!</button></a>
+      <a href="./login"><button>Log In!</button></a>
+      <br>
+      
+      <p>Created by Sheridan Lynch, Aaron Goodlund, Rachel Azwell, Mia Brady, and Ava Brady.</p>
+    </div>
+  </body>
+  
 </html>

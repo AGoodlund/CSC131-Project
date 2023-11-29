@@ -110,49 +110,9 @@ nav a:visited {
   margin: 20px; 
 }
 
-html {
-  height: 100%;
-  width: 100%;
-}
-
-button {
-  background-color: gray;
-  /* Gray */
-  border: none;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 10px;
-  margin: 4px;
-
-
-}
-
-button:hover {
-  background-color: #FCEEA7;
-  color: black;
-  transition: 0.3s;
-}
-
-submit {
-  background-color: gray;
-  /* Gray */
-  border: none;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 10px;
-  margin: 4px;
-
-
-}
-
-submit:hover {
-  background-color: #FCEEA7;
-  color: black;
-  transition: 0.3s;
+.box {
+  margin: 10px; 
+  padding: 10px; 
+  border: 2px solid black;
+  background-color: white; 
 }
