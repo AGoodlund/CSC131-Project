@@ -1,5 +1,6 @@
 #import numpy as np
 import math
+import data_packets
 
 """
 Gotta start off with installing numpy the same way as Flask
@@ -13,6 +14,10 @@ class Events:
     event_list = []
         #The list of Events for later use TODO: remove anything about the event list because this is a class that gets passed things and that's it. it has no memory
     standard_size = (24 * 4)    #24 hour day with hours broken into four 15 minute pieces
+
+    def __init__(item = data_packets): #TODO: consider whether this needs to be init or not
+        
+        return Events.findOpenTime(data_packets)
 
     def findOpenID():
         temp = 0
@@ -91,7 +96,7 @@ class Events:
                 return list
         return "Event ID not found"
 
-    def addPrioritytoSchedule(ID, list):#should always go with addEventToSchedule
+    """def addPrioritytoSchedule(ID, list):#should always go with addEventToSchedule
         for event in Events.event_list:
             if event['EventID'] == ID:
                 start = (event['startHour'] * event['roundedStartMin'])
@@ -101,7 +106,7 @@ class Events:
                     start += 1
                 return list
         return "Event ID not found"
-    #Priority is being nixed
+    #Priority is being nixed for scope"""
 
 
 
@@ -111,6 +116,7 @@ class Events:
             list[i] = not list[i]
             i += 1
         return list
+    #this is now obsolete because the class only sends over times in data_packets 
 
     def createList(size = standard_size):
         array = []
@@ -145,7 +151,14 @@ class Events:
             return "no open time found"
         return Events.openTimes
     
-             
+    def createEvent(packet = data_packets):
+        good_times = findOpenTime(packet)
+        times = convert_to_packet(good_times, packet)
+        return times
+
+    def convert_to_packet(times, packet = data_packets): #this sends back the given packet because only the schedule matters here
+        packet["Day's Schedule"] = times
+        return packet
 
 def goodTimeString(dictionary = []):
 

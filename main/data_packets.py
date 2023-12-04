@@ -22,7 +22,6 @@ class data_packet:
         string_list = []
         hour = 0
         minutes = 0
-        element = 0
         colon = ":"
         am_pm = "am"
 
@@ -53,4 +52,4 @@ def test():
     print(test_list)
 
 
-test()
+#test()
