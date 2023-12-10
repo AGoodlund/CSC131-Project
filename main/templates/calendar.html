@@ -67,6 +67,16 @@
   </div>
 {% endblock %}
 
+<!-- This method is here so that post works. Once the array of times can post, then it can be replaced. I put it back so that there's SOMETHING that works. -SL-->
+<form method="post">
+  <p>
+    <label for="time">Type in Time:</label><br>
+    <input type="text" id="time" name="time"><br>
+  </p>
+  <p>
+    <button type="submit" id="retroSubmit">Add Time</button>
+  </p>
+</form>
 
 
 <body>
@@ -203,9 +213,10 @@
 <div id="submissionForm"></div>
 </form>
 
+
 <script>
     
-let btns = document.querySelectorAll('button:not(#btnSubmit):not(#btnInvert)');
+let btns = document.querySelectorAll('button:not(#btnSubmit):not(#btnInvert):not(#retroSubmit)');
 const btnSubmit = document.getElementById('btnSubmit');
 const btnInvert = document.getElementById('btnInvert');
 
