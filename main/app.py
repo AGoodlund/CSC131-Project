@@ -199,7 +199,7 @@ def delete_time(time_id):
 
 
 # Update a Time in a specific Day
-@app.put('/times/<int:time_id>/edit')
+@app.post('/times/<int:time_id>/edit')
 def edit_time(time_id): 
   update_time = Time.query.get_or_404(time_id)
   day_id = update_time.day.id 

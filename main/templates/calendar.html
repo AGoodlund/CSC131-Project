@@ -51,7 +51,7 @@
                   </div>
                   <!--Added this back in just so that it's there -SL-->
                   <div>
-                    <form method="PUT" action="{{ url_for('edit_time', time_id=time.id) }}">
+                    <form method="POST" action="{{ url_for('edit_time', time_id=time.id) }}">
                         <label for="time">Edit Time</label>
                         <input type="text" name="time" value={{time.time}} placeholder="Time"></input>
                         <input type="submit" value="Update Time"></input>
