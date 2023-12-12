@@ -15,7 +15,7 @@
 # Create venv in main:
 # $ py -3 -m venv venv
 # Then activate the virtual machine (for windows):
-# $. venv\scripts\activate
+# $ . venv\scripts\activate
 # Download the required libraries:
 # $ pip install -r requirements.txt
 # Run the app:
