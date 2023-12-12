@@ -15,10 +15,12 @@
 # Create venv in main:
 # $ py -3 -m venv venv
 # Then activate the virtual machine (for windows):
-# $venv\scripts\activate
+# $. venv\scripts\activate
 # Download the required libraries:
 # $ pip install -r requirements.txt
-# Now you are ready to go!
-
+# Run the app:
+# $ py app.py
+# Grab the URL given and put it in your browser
+# Tada! You got the app running!
 
 
